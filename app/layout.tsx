@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -7,6 +8,11 @@ export const metadata: Metadata = {
         "A Next JS application designed to create, read, update, and delete code snippets.",
 };
 
+const roboto = Roboto({
+    subsets: ["latin"],
+    weight: ["400", "700"],
+});
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -14,7 +20,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body>{children}</body>
+            <body className={roboto.className}>{children}</body>
         </html>
     );
 }
