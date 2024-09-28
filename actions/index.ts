@@ -16,3 +16,11 @@ export const createSnippet = async (formData: FormData) => {
 
     redirect("/");
 };
+
+export const deleteSnippet = async (id: string) => {
+    await db.snippet.delete({
+        where: { id },
+    });
+
+    redirect("/");
+};
