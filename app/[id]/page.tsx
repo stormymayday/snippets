@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { notFound } from "next/navigation";
 
 interface SnippetDetailsPageProps {
     params: {
@@ -12,6 +13,10 @@ async function SnippetDetailsPage(props: SnippetDetailsPageProps) {
             id: props.params.id,
         },
     });
+
+    if (!snippet) {
+        return notFound();
+    }
 
     return (
         <div>
