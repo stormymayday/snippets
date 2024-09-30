@@ -13,24 +13,17 @@ function CreateSnippetPage() {
                 </h3>
 
                 <div className="flex flex-col gap-2">
-                    <label htmlFor="title" className="w-12">
-                        Title
-                    </label>
+                    <label htmlFor="title">Title</label>
                     <input
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded"
                         type="text"
                         name="title"
                     />
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    <label htmlFor="title" className="w-12">
-                        Code
-                    </label>
-                    <textarea
-                        className="border p-2 rounded w-full h-40"
-                        name="code"
-                    />
+                    <label htmlFor="title">Code</label>
+                    <textarea className="border p-2 rounded h-40" name="code" />
                 </div>
                 <CreateSnippetBtn />
             </form>
