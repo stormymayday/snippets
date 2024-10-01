@@ -6,21 +6,24 @@ export default async function Home() {
 
     return (
         <section>
-            <div className="flex justify-between my-9">
-                <h1>Home Page</h1>
+            <div className="flex justify-between items-center my-9">
+                <h1 className="text-2xl font-bold">Snippets</h1>
 
                 <Link
                     href="/new"
                     className="bg-green-500 p-2 rounded text-white text-xs font-bold"
                 >
-                    New
+                    Create New
                 </Link>
             </div>
 
             <div className="flex flex-col gap-y-4">
                 {snippets.length ? (
                     snippets.map((snippet) => (
-                        <div key={snippet.id} className="flex justify-between">
+                        <div
+                            key={snippet.id}
+                            className="flex justify-between items-center border rounded p-2"
+                        >
                             <p>{snippet.title}</p>
 
                             <Link
