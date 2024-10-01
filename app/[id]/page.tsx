@@ -24,8 +24,8 @@ async function SnippetDetailsPage(props: SnippetDetailsPageProps) {
 
     return (
         <>
-            <div className="flex justify-between items-center">
-                <h2>{snippet.title}</h2>
+            <div className="flex justify-between items-center my-9">
+                <h1 className="text-2xl font-bold">{snippet.title}</h1>
                 <div className="flex gap-2">
                     <Link
                         className="bg-blue-500 p-2 px-4 rounded font-bold text-sm text-white"
@@ -43,9 +43,9 @@ async function SnippetDetailsPage(props: SnippetDetailsPageProps) {
                     </form>
                 </div>
             </div>
-            <div>
-                <p>{snippet.code}</p>
-            </div>
+            <pre className="h-[60vh] p-3 border rounded bg-gray-200">
+                <code>{snippet.code}</code>
+            </pre>
         </>
     );
 }
