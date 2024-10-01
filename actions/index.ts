@@ -24,3 +24,20 @@ export const deleteSnippet = async (id: string) => {
 
     redirect("/");
 };
+
+export const updateSnippet = async (id: string, formData: FormData) => {
+    const title = formData.get("title") as string;
+    const code = formData.get("code") as string;
+
+    await db.snippet.update({
+        where: {
+            id,
+        },
+        data: {
+            title,
+            code,
+        },
+    });
+
+    redirect("/");
+};
