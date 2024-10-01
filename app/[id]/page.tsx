@@ -20,7 +20,7 @@ async function SnippetDetailsPage(props: SnippetDetailsPageProps) {
         return notFound();
     }
 
-    const deleteSnippetAction = deleteSnippet.bind(null, snippet?.id);
+    const deleteSnippetAction = deleteSnippet.bind(null, snippet.id);
 
     return (
         <>
@@ -50,3 +50,13 @@ async function SnippetDetailsPage(props: SnippetDetailsPageProps) {
     );
 }
 export default SnippetDetailsPage;
+
+export async function generateStaticParams() {
+    const snippets = await db.snippet.findMany();
+
+    return snippets.map((snippet) => {
+        return {
+            id: snippet.id,
+        };
+    });
+}
