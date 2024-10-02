@@ -4,6 +4,7 @@ import type { Snippet } from "@prisma/client";
 import { useState } from "react";
 import EditSnippetBtn from "./EditSnippetBtn";
 import { updateSnippet } from "@/actions";
+import { Editor } from "@monaco-editor/react";
 
 interface SnippetEditFormProps {
     snippet: Snippet;
@@ -13,7 +14,12 @@ function SnippetEditForm({ snippet }: SnippetEditFormProps) {
     const [title, setTitle] = useState(snippet.title);
     const [code, setCode] = useState(snippet.code);
 
-    const updateSnippetAction = updateSnippet.bind(null, snippet.id);
+    const updateSnippetAction = updateSnippet.bind(null, snippet.id, code);
+
+    const handleEditorChange = (value: string = "") => {
+        // console.log(value);
+        setCode(value);
+    };
 
     return (
         <form
@@ -35,8 +41,8 @@ function SnippetEditForm({ snippet }: SnippetEditFormProps) {
                 />
             </div>
 
-            <div className="flex flex-col gap-2">
-                <label htmlFor="title">Code</label>
+            {/* <div className="flex flex-col gap-2">
+                <label htmlFor="code">Code</label>
                 <textarea
                     className="border p-2 rounded h-40"
                     name="code"
@@ -44,6 +50,16 @@ function SnippetEditForm({ snippet }: SnippetEditFormProps) {
                     onChange={(e) => {
                         setCode(e.target.value);
                     }}
+                />
+            </div> */}
+            <div className="border-4 border-black rounded">
+                <Editor
+                    height="40vh"
+                    theme="vs-dark"
+                    language="javascript"
+                    defaultValue={snippet.code}
+                    options={{ minimap: { enabled: false } }}
+                    onChange={handleEditorChange}
                 />
             </div>
 

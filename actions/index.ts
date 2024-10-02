@@ -3,9 +3,9 @@
 import { db } from "@/db";
 import { redirect } from "next/navigation";
 
-export const createSnippet = async (formData: FormData) => {
+export const createSnippet = async (code: string, formData: FormData) => {
     const title = formData.get("title") as string;
-    const code = formData.get("code") as string;
+    // const code = formData.get("code") as string;
 
     await db.snippet.create({
         data: {
@@ -25,9 +25,13 @@ export const deleteSnippet = async (id: string) => {
     redirect("/");
 };
 
-export const updateSnippet = async (id: string, formData: FormData) => {
+export const updateSnippet = async (
+    id: string,
+    code: string,
+    formData: FormData
+) => {
     const title = formData.get("title") as string;
-    const code = formData.get("code") as string;
+    // const code = formData.get("code") as string;
 
     await db.snippet.update({
         where: {
@@ -39,5 +43,5 @@ export const updateSnippet = async (id: string, formData: FormData) => {
         },
     });
 
-    redirect("/");
+    redirect(`/${id}`);
 };
