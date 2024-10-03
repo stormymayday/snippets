@@ -3,16 +3,43 @@
 import { db } from "@/db";
 import { redirect } from "next/navigation";
 
-export const createSnippet = async (code: string, formData: FormData) => {
-    const title = formData.get("title") as string;
-    // const code = formData.get("code") as string;
+export const createSnippet = async (
+    code: string,
+    formState: { message: string },
+    formData: FormData
+) => {
+    try {
+        const title = formData.get("title") as string;
 
-    await db.snippet.create({
-        data: {
-            title,
-            code,
-        },
-    });
+        if (typeof title !== "string" || title.length < 3) {
+            return {
+                message: "Title must be longer",
+            };
+        }
+
+        if (typeof code !== "string" || code.length < 3) {
+            return {
+                message: "Code must be longer",
+            };
+        }
+
+        await db.snippet.create({
+            data: {
+                title,
+                code,
+            },
+        });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return {
+                message: error.message,
+            };
+        } else {
+            return {
+                message: "Oops! Something went wrong!",
+            };
+        }
+    }
 
     redirect("/");
 };
@@ -31,7 +58,6 @@ export const updateSnippet = async (
     formData: FormData
 ) => {
     const title = formData.get("title") as string;
-    // const code = formData.get("code") as string;
 
     await db.snippet.update({
         where: {

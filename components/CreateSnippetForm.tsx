@@ -4,6 +4,7 @@ import { createSnippet } from "@/actions";
 import { useState } from "react";
 import { Editor } from "@monaco-editor/react";
 import CreateSnippetBtn from "./CreateSnippetBtn";
+import { useFormState } from "react-dom";
 
 function CreateSnippetForm() {
     const [code, setCode] = useState("");
@@ -12,11 +13,13 @@ function CreateSnippetForm() {
         setCode(value);
     };
 
-    const createSnippetAction = createSnippet.bind(null, code);
+    const [formState, action] = useFormState(createSnippet.bind(null, code), {
+        message: "",
+    });
 
     return (
         <form
-            action={createSnippetAction}
+            action={action}
             className="w-[100%] md:w-[60%] lg:w-[40%] p-6 rounded shadow flex flex-col gap-y-6"
         >
             <h3 className="font-bold m-3 text-center text-xl">
@@ -32,11 +35,6 @@ function CreateSnippetForm() {
                 />
             </div>
 
-            {/* <div className="flex flex-col gap-2">
-                <label htmlFor="code">Code</label>
-                <textarea className="border p-2 rounded h-40" name="code" />
-            </div> */}
-
             <div className="border-4 border-black rounded">
                 <Editor
                     height="40vh"
@@ -47,6 +45,12 @@ function CreateSnippetForm() {
                     onChange={handleEditorChange}
                 />
             </div>
+
+            {formState.message ? (
+                <div className="my-2 p-2 bg-red-200 rounded text-center">
+                    {formState.message}
+                </div>
+            ) : null}
 
             <CreateSnippetBtn />
         </form>
