@@ -2,6 +2,7 @@
 
 import { db } from "@/db";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export const createSnippet = async (
     code: string,
@@ -41,7 +42,8 @@ export const createSnippet = async (
         }
     }
 
-    redirect("/");
+    // redirect("/");
+    revalidatePath("/");
 };
 
 export const deleteSnippet = async (id: string) => {
