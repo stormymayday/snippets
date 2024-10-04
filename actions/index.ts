@@ -10,7 +10,7 @@ export const createSnippet = async (
     formData: FormData
 ) => {
     try {
-        const title = formData.get("title") as string;
+        const title = formData.get("title");
 
         if (typeof title !== "string" || title.length < 3) {
             return {
@@ -59,19 +59,45 @@ export const deleteSnippet = async (id: string) => {
 export const updateSnippet = async (
     id: string,
     code: string,
+    formState: { message: string },
     formData: FormData
 ) => {
-    const title = formData.get("title") as string;
+    try {
+        const title = formData.get("title");
 
-    await db.snippet.update({
-        where: {
-            id,
-        },
-        data: {
-            title,
-            code,
-        },
-    });
+        if (typeof title !== "string" || title.length < 3) {
+            return {
+                message: "Title must be longer",
+            };
+        }
 
+        if (typeof code !== "string" || code.length < 3) {
+            return {
+                message: "Code must be longer",
+            };
+        }
+
+        await db.snippet.update({
+            where: {
+                id,
+            },
+            data: {
+                title,
+                code,
+            },
+        });
+
+        revalidatePath(`/${id}`);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return {
+                message: error.message,
+            };
+        } else {
+            return {
+                message: "Oops! Something went wrong!",
+            };
+        }
+    }
     redirect(`/${id}`);
 };
