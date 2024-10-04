@@ -32,7 +32,6 @@ export const createSnippet = async (
         });
 
         revalidatePath("/");
-        // return { message: "" };
     } catch (error: unknown) {
         if (error instanceof Error) {
             return {
@@ -53,6 +52,7 @@ export const deleteSnippet = async (id: string) => {
         where: { id },
     });
 
+    revalidatePath("/");
     redirect("/");
 };
 
