@@ -87,8 +87,8 @@ export const updateSnippet = async (
             },
         });
 
-        // revalidatePath("/");
-        // revalidatePath(`/${id}`);
+        revalidatePath("/");
+        revalidatePath(`/${id}`);
     } catch (error: unknown) {
         if (error instanceof Error) {
             return {
