@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,13 +20,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={roboto.className}>
-                <header>
-                    <Navbar />
-                </header>
-
-                <main className="max-w-xlg px-14 py-8">{children}</main>
-            </body>
+            <body className={roboto.className}>{children}</body>
         </html>
     );
 }
