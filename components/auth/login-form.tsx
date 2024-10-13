@@ -34,7 +34,7 @@ function LoginForm() {
     return (
         <CardWrapper
             headerLabel="Welcome Back"
-            backButtonLabel="don't have and account?"
+            backButtonLabel="Don't have and account?"
             backButtonHref="/auth/register"
             showSocial
         >
@@ -53,7 +53,7 @@ function LoginForm() {
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder="john.doe@example.com"
+                                            // placeholder="john.doe@example.com"
                                             type="email"
                                         />
                                     </FormControl>
