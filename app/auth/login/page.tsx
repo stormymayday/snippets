@@ -1,4 +1,10 @@
+import LoginForm from "@/components/auth/login-form";
+
 function LoginPage() {
-    return <div>Login Page</div>;
+    return (
+        <div>
+            <LoginForm />
+        </div>
+    );
 }
 export default LoginPage;
