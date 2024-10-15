@@ -28,8 +28,13 @@ import FromSuccess from "@/components/form-success";
 import { login } from "@/actions";
 import { useTransition } from "react";
 
+import { useState } from "react";
+
 function LoginForm() {
     const [isPending, startTransition] = useTransition();
+
+    const [error, setError] = useState<string | undefined>("");
+    const [success, setSuccess] = useState<string | undefined>("");
 
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
@@ -40,8 +45,16 @@ function LoginForm() {
     });
 
     function onSubmit(values: z.infer<typeof LoginSchema>) {
+        // Clearing error and success
+        setError("");
+        setSuccess("");
+
+        // Pending state
         startTransition(() => {
-            login(values);
+            login(values).then((data) => {
+                setError(data.error);
+                setSuccess(data.success);
+            });
         });
     }
 
@@ -94,8 +107,8 @@ function LoginForm() {
                             )}
                         />
                     </div>
-                    <FormError message="" />
-                    <FromSuccess message="" />
+                    <FormError message={error} />
+                    <FromSuccess message={success} />
                     <Button
                         className="min-w-full"
                         type="submit"
