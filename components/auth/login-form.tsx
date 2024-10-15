@@ -25,7 +25,12 @@ import CardWrapper from "@/components/auth/card-wrapper";
 import FormError from "@/components/form-error";
 import FromSuccess from "@/components/form-success";
 
+import { login } from "@/actions";
+import { useTransition } from "react";
+
 function LoginForm() {
+    const [isPending, startTransition] = useTransition();
+
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
@@ -35,7 +40,9 @@ function LoginForm() {
     });
 
     function onSubmit(values: z.infer<typeof LoginSchema>) {
-        console.log(values);
+        startTransition(() => {
+            login(values);
+        });
     }
 
     return (
@@ -62,6 +69,7 @@ function LoginForm() {
                                             {...field}
                                             // placeholder="john.doe@example.com"
                                             type="email"
+                                            disabled={isPending}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -75,7 +83,11 @@ function LoginForm() {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input {...field} type="password" />
+                                        <Input
+                                            {...field}
+                                            type="password"
+                                            disabled={isPending}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -84,8 +96,12 @@ function LoginForm() {
                     </div>
                     <FormError message="" />
                     <FromSuccess message="" />
-                    <Button className="min-w-full" type="submit">
-                        Login
+                    <Button
+                        className="min-w-full"
+                        type="submit"
+                        disabled={isPending}
+                    >
+                        {isPending ? "Logging in..." : "Login"}
                     </Button>
                 </form>
             </Form>
