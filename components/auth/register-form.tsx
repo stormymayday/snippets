@@ -5,7 +5,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { LoginSchema } from "@/schemas";
+import { RegisterSchema } from "@/schemas";
 
 import {
     Form,
@@ -25,33 +25,34 @@ import CardWrapper from "@/components/auth/card-wrapper";
 import FormError from "@/components/form-error";
 import FromSuccess from "@/components/form-success";
 
-import { login } from "@/actions";
+import { register } from "@/actions";
 import { useTransition } from "react";
 
 import { useState } from "react";
 
-function LoginForm() {
+function RegisterForm() {
     const [isPending, startTransition] = useTransition();
 
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
 
-    const form = useForm<z.infer<typeof LoginSchema>>({
-        resolver: zodResolver(LoginSchema),
+    const form = useForm<z.infer<typeof RegisterSchema>>({
+        resolver: zodResolver(RegisterSchema),
         defaultValues: {
             email: "",
             password: "",
+            name: "",
         },
     });
 
-    function onSubmit(values: z.infer<typeof LoginSchema>) {
+    function onSubmit(values: z.infer<typeof RegisterSchema>) {
         // Clearing error and success
         setError("");
         setSuccess("");
 
         // Pending state
         startTransition(() => {
-            login(values).then((data) => {
+            register(values).then((data) => {
                 setError(data.error);
                 setSuccess(data.success);
             });
@@ -60,9 +61,9 @@ function LoginForm() {
 
     return (
         <CardWrapper
-            headerLabel="Welcome Back"
-            backButtonLabel="Don't have an account?"
-            backButtonHref="/auth/register"
+            headerLabel="Create an account"
+            backButtonLabel="Already have an account?"
+            backButtonHref="/auth/login"
             showSocial
         >
             <Form {...form}>
@@ -82,6 +83,23 @@ function LoginForm() {
                                             {...field}
                                             // placeholder="john.doe@example.com"
                                             type="email"
+                                            disabled={isPending}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            // placeholder="john.doe@example.com"
                                             disabled={isPending}
                                         />
                                     </FormControl>
@@ -114,7 +132,9 @@ function LoginForm() {
                         type="submit"
                         disabled={isPending}
                     >
-                        {isPending ? "Logging in..." : "Login"}
+                        {isPending
+                            ? "Creating an account..."
+                            : "Create an account"}
                     </Button>
                 </form>
             </Form>
@@ -122,4 +142,4 @@ function LoginForm() {
     );
 }
 
-export default LoginForm;
+export default RegisterForm;
