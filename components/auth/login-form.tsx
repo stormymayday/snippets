@@ -22,6 +22,8 @@ import { Button } from "@/components/ui/button";
 
 import CardWrapper from "@/components/auth/card-wrapper";
 
+import FormError from "@/components/form-error";
+
 function LoginForm() {
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
@@ -79,6 +81,7 @@ function LoginForm() {
                             )}
                         />
                     </div>
+                    <FormError message="something went wrong" />
                     <Button className="min-w-full" type="submit">
                         Login
                     </Button>
