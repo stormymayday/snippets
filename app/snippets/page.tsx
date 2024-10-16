@@ -27,7 +27,7 @@ export default async function Home() {
                             <p>{snippet.title}</p>
 
                             <Link
-                                href={`/${snippet.id}`}
+                                href={`snippets/${snippet.id}`}
                                 className="bg-blue-500 p-2 rounded text-white text-xs font-bold"
                             >
                                 View
