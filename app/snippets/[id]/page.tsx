@@ -29,7 +29,7 @@ async function SnippetDetailsPage(props: SnippetDetailsPageProps) {
                 <div className="flex gap-2">
                     <Link
                         className="bg-blue-500 p-2 px-4 rounded font-bold text-sm text-white"
-                        href={`/${snippet.id}/edit`}
+                        href={`/snippets/${snippet.id}/edit`}
                     >
                         edit
                     </Link>
