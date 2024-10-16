@@ -10,7 +10,7 @@ export default async function Home() {
                 <h1 className="text-2xl font-bold">Snippets</h1>
 
                 <Link
-                    href="/new"
+                    href="snippets/new"
                     className="bg-green-500 p-2 rounded text-white text-xs font-bold"
                 >
                     Create New
