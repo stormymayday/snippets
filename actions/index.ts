@@ -79,8 +79,8 @@ export const deleteSnippet = async (id: string) => {
         where: { id },
     });
 
-    revalidatePath("/");
-    redirect("/");
+    revalidatePath("/snippets");
+    redirect("/snippets");
 };
 
 export const updateSnippet = async (
