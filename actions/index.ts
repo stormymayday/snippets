@@ -58,7 +58,7 @@ export const createSnippet = async (
             },
         });
 
-        revalidatePath("/");
+        revalidatePath("/snippets");
     } catch (error: unknown) {
         if (error instanceof Error) {
             return {
@@ -71,7 +71,7 @@ export const createSnippet = async (
         }
     }
 
-    redirect("/");
+    redirect("/snippets");
 };
 
 export const deleteSnippet = async (id: string) => {
