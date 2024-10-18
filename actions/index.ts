@@ -6,17 +6,52 @@ import { revalidatePath } from "next/cache";
 
 import * as z from "zod";
 import { LoginSchema, RegisterSchema } from "@/schemas";
+import bcrypt from "bcrypt";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
     const validatedFields = RegisterSchema.safeParse(values);
 
+    // Checking if the fields are valid
     if (!validatedFields.success) {
         return {
             error: "Invalid fields!",
         };
     }
 
-    return { success: "Email sent!" };
+    // Extracting validated fields
+    const { email, password, name } = validatedFields.data;
+
+    // Hashing the password (using salt rounds of 10)
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Confirming whether if the email is not taken
+    const existingUser = await db.user.findUnique({
+        where: {
+            email,
+        },
+    });
+
+    // Email is taken
+    if (existingUser) {
+        return {
+            error: "Email already in use!",
+        };
+    }
+
+    console.log("DB Client:", db);
+
+    // Creating the user
+    await db.user.create({
+        data: {
+            name,
+            email,
+            password: hashedPassword,
+        },
+    });
+
+    // TODO: Send verification token email
+
+    return { success: "User created!" };
 };
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
