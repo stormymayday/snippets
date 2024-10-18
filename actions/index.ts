@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import * as z from "zod";
 import { LoginSchema, RegisterSchema } from "@/schemas";
 import bcrypt from "bcrypt";
+import { getUserByEmail } from "@/utils/user";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
     const validatedFields = RegisterSchema.safeParse(values);
@@ -25,11 +26,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Confirming whether if the email is not taken
-    const existingUser = await db.user.findUnique({
-        where: {
-            email,
-        },
-    });
+    const existingUser = await getUserByEmail(email);
 
     // Email is taken
     if (existingUser) {
