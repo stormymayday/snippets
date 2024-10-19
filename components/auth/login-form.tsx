@@ -49,7 +49,7 @@ function LoginForm() {
         setError("");
         setSuccess("");
 
-        // Pending state
+        // Pending State
         startTransition(() => {
             login(values).then((data) => {
                 setError(data.error);
@@ -61,7 +61,7 @@ function LoginForm() {
     return (
         <CardWrapper
             headerLabel="Welcome Back"
-            backButtonLabel="Don't have an account?"
+            backButtonLabel="Don't have and account?"
             backButtonHref="/auth/register"
             showSocial
         >
