@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 
 import * as z from "zod";
 import { LoginSchema, RegisterSchema } from "@/schemas";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/utils/user";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
