@@ -10,20 +10,20 @@ async function Navbar() {
             <Link className="font-bold text-xl" href="/snippets">
                 Home
             </Link>
-            <div className="flex items-center gap-3">
-                <p>{session?.user?.name}</p>
-                <form
-                    action={async () => {
-                        "use server";
+            {/* <div className="flex items-center gap-3"> */}
+            {/* <p>Hello {session?.user?.id}</p> */}
+            <form
+                action={async () => {
+                    "use server";
 
-                        await signOut({
-                            redirectTo: "/auth/login",
-                        });
-                    }}
-                >
-                    <Button type="submit">Sign Out</Button>
-                </form>
-            </div>
+                    await signOut({
+                        redirectTo: "/auth/login",
+                    });
+                }}
+            >
+                <Button type="submit">Sign Out</Button>
+            </form>
+            {/* </div> */}
         </nav>
     );
 }
