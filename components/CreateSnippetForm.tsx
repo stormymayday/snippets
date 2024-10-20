@@ -6,16 +6,23 @@ import { Editor } from "@monaco-editor/react";
 import CreateSnippetBtn from "./CreateSnippetBtn";
 import { useFormState } from "react-dom";
 
-function CreateSnippetForm() {
+interface CreateSnippetFormProps {
+    userId: string;
+}
+
+function CreateSnippetForm({ userId }: CreateSnippetFormProps) {
     const [code, setCode] = useState("");
 
     const handleEditorChange = (value: string = "") => {
         setCode(value);
     };
 
-    const [formState, action] = useFormState(createSnippet.bind(null, code), {
-        message: "",
-    });
+    const [formState, action] = useFormState(
+        createSnippet.bind(null, code, userId),
+        {
+            message: "",
+        }
+    );
 
     return (
         <form

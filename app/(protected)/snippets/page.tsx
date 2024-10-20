@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { db } from "@/db";
+import { auth } from "@/auth";
 
 export default async function Home() {
+    const session = await auth();
+
     const snippets = await db.snippet.findMany();
 
     return (

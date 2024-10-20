@@ -93,6 +93,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
 export const createSnippet = async (
     code: string,
+    userId: string,
     formState: { message: string },
     formData: FormData
 ) => {
@@ -111,10 +112,21 @@ export const createSnippet = async (
             };
         }
 
+        // await db.snippet.create({
+        //     data: {
+        //         title,
+        //         code,
+        //         userId,
+        //     },
+        // });
+
         await db.snippet.create({
             data: {
                 title,
                 code,
+                user: {
+                    connect: { id: userId },
+                },
             },
         });
 
