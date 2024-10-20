@@ -52,8 +52,14 @@ function LoginForm() {
         // Pending State
         startTransition(() => {
             login(values).then((data) => {
-                setError(data.error);
-                setSuccess(data.success);
+                console.log(data);
+
+                if (data.error) {
+                    setError(data.error);
+                }
+                if (data.success) {
+                    setSuccess(data.success);
+                }
             });
         });
     }
