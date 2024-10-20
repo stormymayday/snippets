@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { signOut } from "@/auth";
 
 function Navbar() {
     return (
@@ -6,7 +7,15 @@ function Navbar() {
             <Link className="font-bold text-xl" href="/snippets">
                 Home
             </Link>
-            <p>Sign Out</p>
+            <form
+                action={async () => {
+                    "use server";
+
+                    await signOut();
+                }}
+            >
+                <button type="submit">Sign Out</button>
+            </form>
         </nav>
     );
 }
