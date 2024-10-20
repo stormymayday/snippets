@@ -11,7 +11,7 @@ async function Navbar() {
                 Home
             </Link>
             {/* <div className="flex items-center gap-3"> */}
-            <p>Hello {session?.user?.id}</p>
+            <p>Hello {session?.user?.role}</p>
             <form
                 action={async () => {
                     "use server";
