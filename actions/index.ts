@@ -112,19 +112,13 @@ export const createSnippet = async (
             };
         }
 
-        // await db.snippet.create({
-        //     data: {
-        //         title,
-        //         code,
-        //         userId,
-        //     },
-        // });
-
+        // Creating snippet and connecting it to the user
         await db.snippet.create({
             data: {
                 title,
                 code,
                 user: {
+                    // Connecting to user via userId
                     connect: { id: userId },
                 },
             },
@@ -186,8 +180,8 @@ export const updateSnippet = async (
             },
         });
 
-        revalidatePath("/");
-        revalidatePath(`/${id}`);
+        revalidatePath("/snippets");
+        revalidatePath(`/snippets/${id}`);
     } catch (error: unknown) {
         if (error instanceof Error) {
             return {
@@ -199,5 +193,5 @@ export const updateSnippet = async (
             };
         }
     }
-    redirect(`/${id}`);
+    redirect(`/snippets/${id}`);
 };
