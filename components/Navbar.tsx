@@ -1,14 +1,17 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { auth, signOut } from "@/auth";
 
-function Navbar() {
+async function Navbar() {
+    const session = await auth();
+
     return (
         <nav className="py-8 flex items-center justify-between">
             <Link className="font-bold text-xl" href="/snippets">
                 Home
             </Link>
-            <div>
-                {/* <p>{auth.name}</p> */}
+            <div className="flex items-center gap-3">
+                <p>{session?.user?.name}</p>
                 <form
                     action={async () => {
                         "use server";
@@ -16,7 +19,7 @@ function Navbar() {
                         await signOut();
                     }}
                 >
-                    <button type="submit">Sign Out</button>
+                    <Button type="submit">Sign Out</Button>
                 </form>
             </div>
         </nav>

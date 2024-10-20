@@ -50,17 +50,20 @@ function LoginForm() {
         setSuccess("");
 
         // Pending State
-        startTransition(() => {
-            login(values).then((data) => {
-                console.log(data);
+        startTransition(async () => {
+            try {
+                setError("");
+                setSuccess("");
 
-                if (data.error) {
-                    setError(data.error);
-                }
-                if (data.success) {
-                    setSuccess(data.success);
-                }
-            });
+                const data: { error?: string; success?: string } = await login(
+                    values
+                );
+
+                setError(data?.error ?? "");
+                setSuccess(data?.success ?? "");
+            } catch (error) {
+                setError("Something went wrong!");
+            }
         });
     }
 
