@@ -1,11 +1,20 @@
 import Link from "next/link";
 import { db } from "@/db";
 import { auth } from "@/auth";
+import { type Snippet } from "@prisma/client";
 
 export default async function Home() {
     const session = await auth();
 
-    const snippets = await db.snippet.findMany();
+    // const snippets = await db.snippet.findMany();
+    let snippets: Snippet[] = [];
+    try {
+        snippets = session?.user?.id
+            ? await db.snippet.findMany({ where: { userId: session.user.id } })
+            : [];
+    } catch (error) {
+        console.error("Error fetching snippets:", error);
+    }
 
     return (
         <section>

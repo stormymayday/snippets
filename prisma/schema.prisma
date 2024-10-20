@@ -50,8 +50,8 @@ model Snippet {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
   title   String   
   code    String
-
   userId  String   @db.ObjectId // foreign key reference
+
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Relation to User
 }
 
