@@ -19,15 +19,15 @@ import CardWrapper from "@/components/auth/card-wrapper";
 import FormError from "@/components/form-error";
 import FromSuccess from "@/components/form-success";
 import { login } from "@/actions";
-import { useTransition } from "react";
-import { useState, Suspense } from "react";
+import { useState, useTransition } from "react";
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 function LoginForm() {
     const searchParams = useSearchParams();
     const urlError =
         searchParams.get("error") === "OAuthAccountNotLinked"
-            ? "Email is already in use with a different provider"
+            ? "Email is already in use with a different provider!"
             : "";
 
     const [isPending, startTransition] = useTransition();
@@ -66,7 +66,7 @@ function LoginForm() {
     }
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense>
             <CardWrapper
                 headerLabel="Welcome Back"
                 backButtonLabel="Don't have and account?"
