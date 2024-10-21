@@ -20,7 +20,7 @@ import FormError from "@/components/form-error";
 import FromSuccess from "@/components/form-success";
 import { login } from "@/actions";
 import { useTransition } from "react";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 function LoginForm() {
@@ -72,66 +72,68 @@ function LoginForm() {
             backButtonHref="/auth/register"
             showSocial
         >
-            <Form {...form}>
-                <form
-                    className="space-y-6"
-                    onSubmit={form.handleSubmit(onSubmit)}
-                >
-                    <div className="space-y-4">
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            // placeholder="john.doe@example.com"
-                                            type="email"
-                                            maxLength={20}
-                                            disabled={isPending}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        {/* <Input
+            <Suspense fallback={<div>Loading...</div>}>
+                <Form {...form}>
+                    <form
+                        className="space-y-6"
+                        onSubmit={form.handleSubmit(onSubmit)}
+                    >
+                        <div className="space-y-4">
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Email</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                // placeholder="john.doe@example.com"
+                                                type="email"
+                                                maxLength={20}
+                                                disabled={isPending}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Password</FormLabel>
+                                        <FormControl>
+                                            {/* <Input
                                             {...field}
                                             type="password"
                                             disabled={isPending}
                                         /> */}
-                                        <PasswordInput
-                                            {...field}
-                                            disabled={isPending}
-                                            maxLength={20}
-                                            // placeholder="password"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <FormError message={error || urlError} />
-                    <FromSuccess message={success} />
-                    <Button
-                        className="min-w-full"
-                        type="submit"
-                        disabled={isPending}
-                    >
-                        {isPending ? "Logging in..." : "Login"}
-                    </Button>
-                </form>
-            </Form>
+                                            <PasswordInput
+                                                {...field}
+                                                disabled={isPending}
+                                                maxLength={20}
+                                                // placeholder="password"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <FormError message={error || urlError} />
+                        <FromSuccess message={success} />
+                        <Button
+                            className="min-w-full"
+                            type="submit"
+                            disabled={isPending}
+                        >
+                            {isPending ? "Logging in..." : "Login"}
+                        </Button>
+                    </form>
+                </Form>
+            </Suspense>
         </CardWrapper>
     );
 }
