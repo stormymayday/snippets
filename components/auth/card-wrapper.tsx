@@ -27,7 +27,7 @@ function CardWrapper({
     showSocial,
 }: CardWrapperProps) {
     return (
-        <Card className="w-[400px] shadow-md">
+        <Card className="w-[90vw] sm:w-[400px] shadow-md">
             <CardHeader>
                 <Header label={headerLabel} />
             </CardHeader>
