@@ -138,6 +138,8 @@ function LoginForm() {
 
 export default LoginForm;
 
+// Alternative Suspense approach
+
 // "use client";
 
 // import * as z from "zod";
