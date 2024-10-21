@@ -11,6 +11,8 @@ import { getUserByEmail } from "@/utils/user";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { generateVerificationToken } from "@/utils/tokens";
+import { error } from "console";
+import FromSuccess from "@/components/form-success";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
     const validatedFields = RegisterSchema.safeParse(values);
@@ -54,7 +56,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
     // TODO: Send verification token email
 
-    return { success: "Confirmation email has been sent!" };
+    return { success: "Account created! Please verify your email!" };
 };
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
@@ -67,6 +69,22 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     }
 
     const { email, password } = validatedFields.data;
+
+    const existingUser = await getUserByEmail(email);
+
+    if (!existingUser || !existingUser.email || !existingUser.password) {
+        return { error: "Invalid credentials!" };
+    }
+
+    // Checking if email is verified
+    if (!existingUser.emailVerified) {
+        // Generating new Verification Token
+        const verificationToken = await generateVerificationToken(
+            existingUser.email
+        );
+
+        return { error: "Please verify your email!" };
+    }
 
     try {
         await signIn("credentials", {
