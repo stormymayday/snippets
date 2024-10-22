@@ -4,9 +4,9 @@ import { Suspense } from "react";
 function LoginPage() {
     return (
         <div>
-            <Suspense fallback={<div>Loading...</div>}>
-                <LoginForm />
-            </Suspense>
+            {/* <Suspense fallback={<div>Loading...</div>}> */}
+            <LoginForm />
+            {/* </Suspense> */}
         </div>
     );
 }
