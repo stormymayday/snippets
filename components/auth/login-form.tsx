@@ -89,7 +89,7 @@ function LoginForm() {
                                             {...field}
                                             // placeholder="john.doe@example.com"
                                             type="email"
-                                            maxLength={20}
+                                            maxLength={50}
                                             disabled={isPending}
                                         />
                                     </FormControl>

@@ -74,7 +74,7 @@ function RegisterForm() {
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            maxLength={20}
+                                            maxLength={50}
                                             // placeholder="john.doe@example.com"
                                             type="email"
                                             disabled={isPending}
@@ -93,7 +93,7 @@ function RegisterForm() {
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            maxLength={20}
+                                            maxLength={50}
                                             // placeholder="john.doe@example.com"
                                             disabled={isPending}
                                         />

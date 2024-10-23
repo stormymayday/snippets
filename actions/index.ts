@@ -11,7 +11,7 @@ import { getUserByEmail } from "@/utils/user";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { generateVerificationToken } from "@/utils/tokens";
-import { error } from "console";
+import { sendVerificationEmail } from "@/utils/mail";
 import FromSuccess from "@/components/form-success";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
@@ -40,8 +40,6 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
         };
     }
 
-    console.log("DB Client:", db);
-
     // Creating the user
     await db.user.create({
         data: {
@@ -52,9 +50,14 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     });
 
     // Generating Verification Token
-    const verificationToken = generateVerificationToken(email);
+    const verificationToken = await generateVerificationToken(email);
 
-    // TODO: Send verification token email
+    // Sending verification token email
+    await sendVerificationEmail(
+        verificationToken.email,
+        verificationToken.token,
+        name
+    );
 
     return { success: "Account created! Please verify your email!" };
 };
@@ -81,6 +84,13 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         // Generating new Verification Token
         const verificationToken = await generateVerificationToken(
             existingUser.email
+        );
+
+        // Re-sending verification email
+        await sendVerificationEmail(
+            verificationToken.email,
+            verificationToken.token,
+            existingUser.name ? existingUser.name : "User"
         );
 
         return { error: "Please verify your email!" };
