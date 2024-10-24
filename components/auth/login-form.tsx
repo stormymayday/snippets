@@ -27,7 +27,7 @@ function LoginForm() {
     const searchParams = useSearchParams();
     const urlError =
         searchParams.get("error") === "OAuthAccountNotLinked"
-            ? "Email is already in use with a different provider!"
+            ? "Another account already exists with the same e-mail address"
             : "";
 
     const [isPending, startTransition] = useTransition();

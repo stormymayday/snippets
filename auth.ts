@@ -49,8 +49,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                 return false;
             }
 
+            // Searing for an existing user
             const existingUser = await getUserById(user.id);
 
+            // Checking if email is verified
             if (!existingUser || !existingUser.emailVerified) {
                 // Preventing Sign In if email is not verified
                 return false;
