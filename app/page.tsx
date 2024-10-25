@@ -9,7 +9,12 @@ const poppins = Poppins({
     weight: ["600"],
 });
 
+function delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export default async function LandingPage() {
+    await delay(5000);
     return (
         <main className="h-[100vh] flex flex-col items-center justify-center">
             <div className="space-y-6 text-center">
