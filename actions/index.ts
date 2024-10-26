@@ -11,8 +11,9 @@ import { getUserByEmail } from "@/utils/user";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { generateVerificationToken } from "@/utils/tokens";
+import { getVerificationTokenByToken } from "@/utils/verification-token";
 import { sendVerificationEmail } from "@/utils/mail";
-import FromSuccess from "@/components/form-success";
+import { error } from "console";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
     const validatedFields = RegisterSchema.safeParse(values);
@@ -121,6 +122,48 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         }
         throw error;
     }
+};
+
+export const newVerification = async (token: string) => {
+    // Fetching existing token from db
+    const existingToken = await getVerificationTokenByToken(token);
+
+    // Checking if token exists
+    if (!existingToken) {
+        return {
+            error: "Token does not exist",
+        };
+    }
+
+    // Checking if token has expired
+    const tokenExpired = new Date(existingToken.expires) < new Date();
+    if (tokenExpired) {
+        return { error: "Token has expired" };
+    }
+
+    // Fetching an existing user
+    const existingUser = await getUserByEmail(existingToken.email);
+
+    // Checking if the user exists
+    if (!existingUser) {
+        return { error: "Email does not exist" };
+    }
+
+    // Updating the user
+    // Setting emailVerified to current date and email to the email from token
+    await db.user.update({
+        where: { id: existingUser.id },
+        data: { emailVerified: new Date(), email: existingToken.email },
+    });
+
+    // Deleting existing token
+    await db.verificationToken.delete({
+        where: {
+            id: existingToken.id,
+        },
+    });
+
+    return { success: "Email verified!" };
 };
 
 export const createSnippet = async (
