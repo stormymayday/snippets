@@ -18,12 +18,12 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
                 type={showPassword ? "text" : "password"}
                 suffix={
                     showPassword ? (
-                        <AiOutlineEye
+                        <AiOutlineEyeInvisible
                             className="absolute right-3 select-none cursor-pointer"
                             onClick={() => setShowPassword(false)}
                         />
                     ) : (
-                        <AiOutlineEyeInvisible
+                        <AiOutlineEye
                             className="absolute right-3 select-none cursor-pointer"
                             onClick={() => setShowPassword(true)}
                         />
