@@ -5,15 +5,17 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { AuthError } from "next-auth";
 import * as z from "zod";
-import { LoginSchema, RegisterSchema } from "@/schemas";
+import { LoginSchema, RegisterSchema, ResetPasswordSchema } from "@/schemas";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/utils/user";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { generateVerificationToken } from "@/utils/tokens";
+import {
+    generateVerificationToken,
+    generatePasswordResetToken,
+} from "@/utils/tokens";
 import { getVerificationTokenByToken } from "@/utils/verification-token";
-import { sendVerificationEmail } from "@/utils/mail";
-import { error } from "console";
+import { sendVerificationEmail, sendPasswordResetEmail } from "@/utils/mail";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
     const validatedFields = RegisterSchema.safeParse(values);
@@ -157,13 +159,47 @@ export const newVerification = async (token: string) => {
     });
 
     // Deleting existing token
-    await db.verificationToken.delete({
+    await db.emailVerificationToken.delete({
         where: {
             id: existingToken.id,
         },
     });
 
     return { success: "Email verified!" };
+};
+
+export const resetPassword = async (
+    values: z.infer<typeof ResetPasswordSchema>
+) => {
+    // Validating the fields
+    const validatedFields = ResetPasswordSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        return { error: "Invalid email!" };
+    }
+
+    // Extracting the email
+    const { email } = validatedFields.data;
+
+    // Fetching a user by email
+    const existingUser = await getUserByEmail(email);
+
+    // If there is no user ...
+    if (!existingUser) {
+        return { error: "Invalid email" };
+    }
+
+    // Generating password reset token
+    const passwordResetToken = await generatePasswordResetToken(email);
+
+    //  Sending an email
+    await sendPasswordResetEmail(
+        passwordResetToken.email,
+        passwordResetToken.token,
+        existingUser.name ? existingUser.name : "User"
+    );
+
+    return { success: "Reset email sent!" };
 };
 
 export const createSnippet = async (
