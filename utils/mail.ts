@@ -97,9 +97,9 @@ export const sendVerificationEmail = async (
           <p>${confirmationLink}</p>
 
           <div class="warning">
-           <strong>Please Note::</strong>
+           <strong>Please Note:</strong>
            <ul>
-            <li>This verification link will expire in 24 hours.</li>
+            <li>This verification link will expire in 1 hour.</li>
             <li>If you need a new verification link, please visit the sign-in page and request another one.</li>
            </ul>
          </div>
@@ -118,7 +118,7 @@ export const sendVerificationEmail = async (
               Hello ${name ? name : "there"}!
               Thank you for joining Snippets. We're excited to have you on board.
               To ensure the security of your account and get started with Snippets, please verify your email address by visiting: ${confirmationLink}
-              Please note: This verification link will expire in 24 hours.
+              Please note: This verification link will expire in 1 hour.
               If you didn't create an account with us, you can safely ignore this email.
               Snippets - Making code sharing easier`,
     });
@@ -219,9 +219,9 @@ export const sendPasswordResetEmail = async (
          <p>${passwordResetLink}</p>
          
          <div class="warning">
-           <strong>Please Note::</strong>
+           <strong>Please Note:</strong>
            <ul>
-            <li>This password reset link will expire in 24 hours.</li>
+            <li>This password reset link will expire in 1 hour.</li>
             <li>If you didn't request this password reset, please ignore this email.</li>
            </ul>
          </div>
@@ -240,7 +240,7 @@ export const sendPasswordResetEmail = async (
               We received a request to reset  password for your Snippets account.
               Please visit the following link to reset your password: ${passwordResetLink}
               NOTICE:
-              This password reset link will expire in 24 hours.
+              This password reset link will expire in 1 hour.
               If you didn't request this password reset, please ignore this email.
               Snippets - Making code sharing easier`,
     });

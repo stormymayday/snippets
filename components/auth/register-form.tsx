@@ -117,7 +117,7 @@ function RegisterForm() {
                                         <PasswordInput
                                             {...field}
                                             disabled={isPending}
-                                            maxLength={20}
+                                            maxLength={30}
                                             // placeholder="password"
                                         />
                                     </FormControl>

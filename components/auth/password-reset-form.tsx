@@ -37,8 +37,6 @@ function PasswordResetForm() {
         setError("");
         setSuccess("");
 
-        console.log(values);
-
         // Pending State
         startTransition(async () => {
             try {
