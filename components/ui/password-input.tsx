@@ -1,9 +1,7 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { FaRegEyeSlash } from "react-icons/fa";
 import { AiOutlineEye } from "react-icons/ai";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { TbEyeClosed } from "react-icons/tb";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface PasswordInputProps
@@ -18,12 +16,12 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
                 type={showPassword ? "text" : "password"}
                 suffix={
                     showPassword ? (
-                        <AiOutlineEyeInvisible
+                        <AiOutlineEye
                             className="absolute right-3 select-none cursor-pointer"
                             onClick={() => setShowPassword(false)}
                         />
                     ) : (
-                        <AiOutlineEye
+                        <TbEyeClosed
                             className="absolute right-3 select-none cursor-pointer"
                             onClick={() => setShowPassword(true)}
                         />
